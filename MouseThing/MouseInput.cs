@@ -6,20 +6,19 @@ using System.Threading.Tasks;
 
 namespace MouseThing
 {
-    public class MouseInput : ICooridinates<MouseInput>
+    public class MouseInput : ICoordinates<MouseInput>
     {
         public POINT CursorPosition { get; set; }
-    
+
         public MouseInput(POINT cursorPosition) => CursorPosition = cursorPosition;
 
-        public void Write() 
+        public void Write()
         {
             Console.WriteLine($"X = {CursorPosition.x} Y = {CursorPosition.y}");
         }
-        public bool Compare(MouseInput obeject) 
+        public bool Compare(MouseInput objectD)
         {
-            return CursorPosition.Equals(obeject.CursorPosition);
-        } 
+            return CursorPosition.Equals(objectD.CursorPosition);
+        }
     }
-
 }

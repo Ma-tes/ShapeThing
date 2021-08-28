@@ -10,10 +10,10 @@ namespace MouseThing
     {
         static void Main(string[] args)
         {
-            MouseInput MouseInput = new (new POINT { x = 0, y = 0 });
-            MouseInput ConsoleMouseInput = new(new POINT { x = 0, y = 0 });
-            MouseInput LastPosition;
-            WindowInput WindowCoord = new WindowInput();
+            MouseInput mouseInput = new(new POINT { x = 0, y = 0 });
+            MouseInput consoleMouseInput = new(new POINT { x = 0, y = 0 });
+            MouseInput lastPosition;
+            WindowInput windowCoord = new WindowInput();
             var RoadTypes = new List<RoadType>
             {
                 new(new RECT {Left = 0, Top = -1, Right = 1, Bottom = 0 }, Shapes.LDownCorner),
@@ -50,15 +50,15 @@ namespace MouseThing
                 Thread.Sleep(10);
                 Console.Clear();
                 Console.Title = "Test";
-                 WindowCoord = new WindowInput { Rect = PinVokeHelper.GetWindowRectangle(Console.Title, WindowCoord.Rect) };
-                MouseInput = new MouseInput(PinVokeHelper.GetCursorPosition(MouseInput.CursorPosition, processeID));
-                LastPosition = ConsoleMouseInput;
-                ConsoleMouseInput = new MouseInput
+                windowCoord = new WindowInput { Rect = PinVokeHelper.GetWindowRectangle(Console.Title, windowCoord.Rect) };
+                mouseInput = new MouseInput(PinVokeHelper.GetCursorPosition(mouseInput.CursorPosition, processeID));
+                lastPosition = consoleMouseInput;
+                consoleMouseInput = new MouseInput
                 (
                      new POINT
                      {
-                         x = (MouseInput.CursorPosition.x - WindowCoord.Rect.Left) / 8,
-                         y = (MouseInput.CursorPosition.y - WindowCoord.Rect.Top) / 18
+                         x = (mouseInput.CursorPosition.x - windowCoord.Rect.Left) / 8,
+                         y = (mouseInput.CursorPosition.y - windowCoord.Rect.Top) / 18
                      }
                 );
                 for (int i = 0; i < RoadListChar.Count; i++)
@@ -66,32 +66,19 @@ namespace MouseThing
                     Console.SetCursorPosition(RoadListPos[i].x, RoadListPos[i].y);
                     Console.Write(RoadListChar[i]);
                 }
-                var objectMoving = ConsoleMouseInput.Compare(LastPosition) ? ("STOP", ConsoleColor.Red) : ("MOVE", ConsoleColor.Green);
-                Console.ForegroundColor = objectMoving.Item2;
-                Console.ResetColor();
-                
-                Console.SetCursorPosition(ConsoleMouseInput.CursorPosition.x, ConsoleMouseInput.CursorPosition.y);
-                Console.WriteLine((char)ConnectRoad.GetRoadShape(RoadTypes, ConnectRoad.GetNeighborsList(ConsoleMouseInput.CursorPosition, RoadListPos)));
-                if (PinVokeHelper.OnInput(ConsoleKey.Spacebar)) 
+
+                Console.SetCursorPosition(consoleMouseInput.CursorPosition.x, consoleMouseInput.CursorPosition.y);
+                Console.WriteLine((char)ConnectRoad.GetRoadShape(RoadTypes, ConnectRoad.GetNeighborsList(consoleMouseInput.CursorPosition, RoadListPos)));
+                if (PinVokeHelper.OnInput(ConsoleKey.Spacebar))
                 {
-                    RoadListPos.Add(ConsoleMouseInput.CursorPosition);
-                    RoadListChar.Add((char)ConnectRoad.GetRoadShape(RoadTypes, ConnectRoad.GetNeighborsList(ConsoleMouseInput.CursorPosition, RoadListPos)));
+                    RoadListPos.Add(consoleMouseInput.CursorPosition);
+                    RoadListChar.Add((char)ConnectRoad.GetRoadShape(RoadTypes, ConnectRoad.GetNeighborsList(consoleMouseInput.CursorPosition, RoadListPos)));
                 }
-                if (PinVokeHelper.OnInput(ConsoleKey.R)) 
+                if (PinVokeHelper.OnInput(ConsoleKey.R))
                 {
                     var newRoads = ConnectRoad.UpdateRect(RoadListPos);
-                    foreach (var road in newRoads) 
-                    {
-                        Console.WriteLine($"{road.Left}{road.Top}{road.Right}{road.Bottom}");
-                    }
-                    Console.WriteLine("----");
-                    foreach (var road in RaodListRect) 
-                    {
-                        Console.WriteLine($"{road.Left}{road.Top}{road.Right}{road.Bottom}");
-                    }
-                     ConnectRoad.UpdateChar(newRoads,ref RoadListChar,RoadTypes);
+                    ConnectRoad.UpdateChar(newRoads, ref RoadListChar, RoadTypes);
                 }
-
             }
         }
     }

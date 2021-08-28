@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace MouseThing
 {
-    public class WindowInput : ICooridinates<WindowInput>
+    public class WindowInput : ICoordinates<WindowInput>
     {
         public RECT Rect { get; set; }
-        public void Write() 
+        public void Write()
         {
             Console.WriteLine($"Left = {Rect.Left} Right = {Rect.Right} Top = {Rect.Top} Bottom = {Rect.Bottom}");
         }
-        public bool Compare(WindowInput obeject) 
+        public bool Compare(WindowInput objectD)
         {
-            return Rect.Equals(obeject.Rect);
+            return Rect.Equals(objectD.Rect);
         }
     }
 }

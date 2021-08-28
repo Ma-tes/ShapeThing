@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MouseThing
 {
-    interface ICooridinates<T>
+    interface ICoordinates<T>
     {
         void Write();
-        bool Compare(T obeject);
+        bool Compare(T objectC);
     }
 }
