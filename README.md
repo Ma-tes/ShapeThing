@@ -8,7 +8,7 @@ A very simple algorithm for choosing specified symbol based on his neighbors
 ## Help
 
 ```
-R key will reshape all shapes in buffer
+'R' Reshape all shapes in your buffer
 ```
 
 ## Version History
