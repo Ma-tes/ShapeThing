@@ -7,7 +7,7 @@ A very simple algorithm for choosing specified symbol based on his neighbors
 
 ## Help
 
-*'R'
+* 'R'
 ```
  Reshape all shapes in your buffer
 ```
