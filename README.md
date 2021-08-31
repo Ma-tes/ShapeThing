@@ -19,11 +19,7 @@ A very simple algorithm for choosing specified symbol based on his neighbors
 This project is licensed under the MIT License - see the LICENSE.md file for details
 
 ## Inspiration
-
 * ThinMatrix
 
-
-
-
-
-
+## Helpers
+* S*******n
