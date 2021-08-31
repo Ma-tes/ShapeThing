@@ -1,6 +1,6 @@
-# Project Title
+# ShapeThing
 
-ShapeThing
+
 
 ## Description
 A very simple algorithm for choosing specified symbol based on his neighbors 
