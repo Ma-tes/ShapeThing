@@ -8,7 +8,7 @@ A very simple algorithm for choosing specified symbol based on his neighbors
 ```cs
 Random random = new();
 Console.Title = "Alpha 0.0.1";
-Normal roads = new();
+NormalRoads roads = new();
 
 while(true)
 {
