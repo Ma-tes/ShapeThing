@@ -13,18 +13,8 @@ namespace MouseThing
             Random random = new Random();
             Console.Title = "Alpha 0.0.1";
             NormalRoads roads = new NormalRoads();
-            roads.colors = new();
-            #region Write all Processes on computer
-            var localProcesses = Process.GetProcesses();
-            int processeID;
-            for (int i = 0; i < localProcesses.Length; i++)
-            {
-                Console.WriteLine($"[{i}] {localProcesses[i].ProcessName} ID: {localProcesses[i].Id}");
-            }
-            processeID = int.Parse(Console.ReadLine());
-            #endregion
 
-            while (processeID != 0)
+            while (true)
             {
                 MouseInput mouseInput = new( POINT.Zero );
                 WindowInput windowCoord = new WindowInput();
@@ -32,8 +22,8 @@ namespace MouseThing
 
                 Thread.Sleep(10);
                 Console.Clear();
-                windowCoord = new WindowInput { Rect = PinVokeHelper.GetWindowRectangle(Console.Title, windowCoord.Rect) };
-                mouseInput = new MouseInput(PinVokeHelper.GetCursorPosition(mouseInput.CursorPosition));
+                windowCoord = new WindowInput { Rect = PInvokeHelper.GetWindowRectangle(Console.Title, windowCoord.Rect) };
+                mouseInput = new MouseInput(PInvokeHelper.GetCursorPosition(mouseInput.CursorPosition));
                 consoleMouseInput = new MouseInput
                 (
                      new POINT
@@ -47,15 +37,12 @@ namespace MouseThing
                 Console.SetCursorPosition(consoleMouseInput.CursorPosition.x, consoleMouseInput.CursorPosition.y);
                 Console.WriteLine(RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.Positions)));
 
-                if (PinVokeHelper.OnInput(ConsoleKey.Spacebar))
-                {
+                if (PInvokeHelper.OnInput(ConsoleKey.Spacebar))
                     roads.SetRoad<NormalRoads>(consoleMouseInput.CursorPosition, RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.Positions)))
                          .SetColor((ConsoleColor)random.Next(0,10));
-                }
 
-                if (PinVokeHelper.OnInput(ConsoleKey.R))
+                if (PInvokeHelper.OnInput(ConsoleKey.R))
                     RoadHelper.UpdateRoadChar(ref roads, RoadType.DefaultRoadTypes);
-                
             }
         }
     }
