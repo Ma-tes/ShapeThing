@@ -49,7 +49,7 @@ namespace MouseThing
         protected static extern int GetAsyncKeyState(int value);
 
     }
-    sealed class PinVokeHelper : User32
+    sealed class PInvokeHelper : User32
     {
         public static POINT GetCursorPosition(POINT lpPoint)
         {
