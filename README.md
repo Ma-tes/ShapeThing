@@ -5,7 +5,7 @@ A very simple algorithm for choosing specified symbol based on his neighbors
 
 ## Help
 * Full example
-*```cs
+```cs
 Random random = new();
 Console.Title = "Alpha 0.0.1";
 NormalRoads roads = new();
