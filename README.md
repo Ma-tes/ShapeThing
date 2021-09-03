@@ -1,5 +1,6 @@
 # ShapeThing
 ![](Examples/Example0.gif)
+![](Examples/Colorful_Example.png)
 ## Description
 A very simple algorithm for choosing specified symbol based on his neighbors 
 
