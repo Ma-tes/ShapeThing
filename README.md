@@ -4,7 +4,7 @@
 A very simple algorithm for choosing specified symbol based on his neighbors 
 
 ## Help
-* Full example
+# Full example
 ```cs
 Random random = new();
 Console.Title = "Alpha 0.0.1";
