@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,37 +12,36 @@ namespace MouseThing
     {
         public List<char> Symbols = new();
         public List<POINT> Positions = new();
-        public virtual void AddNewRoad(POINT position, char symbol) 
+        public T SetRoad<T>(POINT position,char Symbol)
         {
-            this.Positions.Add(position);
-            this.Symbols.Add(symbol);
+            Symbols.Add(Symbol); 
+            Positions.Add(position);
+            return (T)Convert.ChangeType(this, typeof(T));
         }
-        public virtual void WriteOnPosition() 
+        public void WriteRoads()
         {
-            for (int i = 0; i < Positions.Count; i++)
+            for (int i = 0; i < Symbols.Count; i++)
             {
-                Console.SetCursorPosition(Positions[i].x, Positions[i].y);
-                Console.Write(Symbols[i]);
-            }
+                WriteRoad(i);
+            } 
+        }
+        protected virtual void WriteRoad(int index) 
+        {
+            Console.SetCursorPosition(Positions[index].x, Positions[index].y);
+            Console.Write(Symbols[index]);
         }
     }
     public class NormalRoads : Roads 
     {
         public int Count => Symbols.Count;
-        public List<ConsoleColor> colors = null; 
-        public sealed override void AddNewRoad(POINT position, char symbol)
+        public List<ConsoleColor> colors = new();
+
+        public NormalRoads SetColor(ConsoleColor color) { colors.Add(color); return this; }
+        protected override void WriteRoad(int index)
         {
-            base.AddNewRoad(position, symbol);
-        }
-        public override void WriteOnPosition()
-        {
-            for (int i = 0; i < Positions.Count; i++)
-            {
-                Console.ForegroundColor = colors is null || colors.Count < i ? ConsoleColor.White : colors[i];
-                Console.SetCursorPosition(Positions[i].x, Positions[i].y);
-                Console.Write(Symbols[i]);
-                Console.ResetColor();
-            }
+            Console.ForegroundColor = colors.Count < index ? ConsoleColor.White : colors[index];
+            base.WriteRoad(index);
+            Console.ResetColor();
         }
 
     }

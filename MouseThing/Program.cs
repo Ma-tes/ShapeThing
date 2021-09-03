@@ -42,15 +42,15 @@ namespace MouseThing
                          y = (mouseInput.CursorPosition.y - windowCoord.Rect.Top) / 18
                      }
                 );
-                roads.WriteOnPosition();
+                roads.WriteRoads();
                 // Write current shape on your mouse position without saving them
                 Console.SetCursorPosition(consoleMouseInput.CursorPosition.x, consoleMouseInput.CursorPosition.y);
                 Console.WriteLine(RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.Positions)));
 
                 if (PinVokeHelper.OnInput(ConsoleKey.Spacebar))
                 {
-                    roads.AddNewRoad(consoleMouseInput.CursorPosition, RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.Positions)));
-                    roads.colors.Add((ConsoleColor)random.Next(0,10));
+                    roads.SetRoad<NormalRoads>(consoleMouseInput.CursorPosition, RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.Positions)))
+                         .SetColor((ConsoleColor)random.Next(0,10));
                 }
 
                 if (PinVokeHelper.OnInput(ConsoleKey.R))
