@@ -8,16 +8,19 @@ using System.Threading.Tasks;
 
 namespace MouseThing
 {
-    public abstract class Roads
+    public abstract class Roads<T>
     {
         public List<char> Symbols = new();
         public List<POINT> Positions = new();
-        public T SetRoad<T>(POINT position,char Symbol)
+        public T SetRoad(POINT position,char Symbol)
         {
             Symbols.Add(Symbol); 
             Positions.Add(position);
-            return (T)Convert.ChangeType(this, typeof(T));
+            if (this is T t)
+                return t;
+            throw new InvalidCastException();
         }
+
         public void WriteRoads()
         {
             for (int i = 0; i < Symbols.Count; i++)
@@ -31,18 +34,29 @@ namespace MouseThing
             Console.Write(Symbols[index]);
         }
     }
-    public class NormalRoads : Roads 
+    public class NormalRoads : Roads<NormalRoads>
     {
-        public int Count => Symbols.Count;
         public List<ConsoleColor> colors = new();
-
         public NormalRoads SetColor(ConsoleColor color) { colors.Add(color); return this; }
-        protected override void WriteRoad(int index)
+        protected  override void WriteRoad(int index)
         {
             Console.ForegroundColor = colors.Count < index ? ConsoleColor.White : colors[index];
             base.WriteRoad(index);
             Console.ResetColor();
         }
-
+    }
+    public class ExtendedRoads : NormalRoads
+    {
+        public List<bool> Writable = new();
+        public ExtendedRoads IsWritable(bool statement) 
+        {
+            Writable.Add(statement);
+            return this;
+        }
+        protected override void WriteRoad(int index)
+        {
+            if(Writable[index] != false)
+                base.WriteRoad(index);
+        }
     }
 }

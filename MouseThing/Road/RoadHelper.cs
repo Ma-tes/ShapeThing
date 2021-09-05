@@ -50,7 +50,7 @@ namespace MouseThing
             }
             return rectList;
         }
-        public static void UpdateRoadChar<T>(ref T roads, List<RoadType> shapes) where T : Roads
+        public static void UpdateRoadChar<T>(ref T roads, List<RoadType> shapes) where T : NormalRoads
         {
             var connectedNeighbors = UpdateRect(roads.Positions);
             for (int i = 0; i < connectedNeighbors.Count; i++)
