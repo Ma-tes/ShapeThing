@@ -12,7 +12,7 @@ namespace MouseThing
         {
             Random random = new Random();
             Console.Title = "Alpha 0.0.1";
-            ExtendedRoads roads = new ExtendedRoads();
+            NormalRoads roads = new NormalRoads();
 
             while (true)
             {
@@ -37,7 +37,7 @@ namespace MouseThing
                 Console.SetCursorPosition(consoleMouseInput.CursorPosition.x, consoleMouseInput.CursorPosition.y);
                 Console.WriteLine(RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.Positions)));
                 if (PInvokeHelper.OnInput(ConsoleKey.Spacebar))
-                    roads.IsWritable(true).SetRoad(consoleMouseInput.CursorPosition, RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.Positions)))
+                    roads.SetRoad(consoleMouseInput.CursorPosition, RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.Positions)))
                          .SetColor((ConsoleColor)random.Next(0,10));
 
                 if (PInvokeHelper.OnInput(ConsoleKey.R))
