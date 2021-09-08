@@ -8,14 +8,29 @@ using System.Threading.Tasks;
 
 namespace MouseThing
 {
-    public abstract class Roads<T>
+    public interface IRoad 
     {
-        public List<char> Symbols = new();
-        public List<POINT> Positions = new();
+         public char Symbols { get; } 
+         public POINT Positions { get; } 
+    }
+    public class Road : IRoad
+    {
+        public char Symbols { get; set; }
+
+        public POINT Positions { get; set; }
+        public Road SetRoadParameter(char symbol, POINT position) => new Road {Symbols = symbol, Positions = position };
+    }
+    public interface IRoads 
+    {
+        public List<Road> RoadList { get; set; } 
+    }
+    public abstract class Roads<T> : Road, IRoads
+    {
+        public List<Road> RoadList { get; set; } = new();
+       
         public T SetRoad(POINT position,char Symbol)
         {
-            Symbols.Add(Symbol); 
-            Positions.Add(position);
+            RoadList.Add(SetRoadParameter(Symbol, position));
             if (this is T t)
                 return t;
             throw new InvalidCastException();
@@ -23,18 +38,18 @@ namespace MouseThing
 
         public void WriteRoads()
         {
-            for (int i = 0; i < Symbols.Count; i++)
+            for (int i = 0; i < RoadList.Count; i++)
             {
                 WriteRoad(i);
             } 
         }
         protected virtual void WriteRoad(int index) 
         {
-            Console.SetCursorPosition(Positions[index].x, Positions[index].y);
-            Console.Write(Symbols[index]);
+            Console.SetCursorPosition(RoadList[index].Positions.x, RoadList[index].Positions.y);
+            Console.Write(RoadList[index].Symbols);
         }
     }
-    public class NormalRoads : Roads<NormalRoads>
+    public class NormalRoads : Roads<NormalRoads>, IRoads
     {
         public List<ConsoleColor> colors = new();
         public NormalRoads SetColor(ConsoleColor color) { colors.Add(color); return this; }
@@ -45,7 +60,7 @@ namespace MouseThing
             Console.ResetColor();
         }
     }
-    public class ExtendedRoads : NormalRoads
+    public class ExtendedRoads : NormalRoads, IRoads 
     {
         public List<bool> Writable = new();
         public ExtendedRoads IsWritable(bool statement) 

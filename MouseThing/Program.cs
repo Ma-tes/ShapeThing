@@ -12,7 +12,7 @@ namespace MouseThing
         {
             Random random = new Random();
             Console.Title = "Alpha 0.0.1";
-            NormalRoads roads = new NormalRoads();
+            ExtendedRoads roads = new ExtendedRoads();
 
             while (true)
             {
@@ -35,9 +35,9 @@ namespace MouseThing
                 roads.WriteRoads();
                 // Write current shape on your mouse position without saving them
                 Console.SetCursorPosition(consoleMouseInput.CursorPosition.x, consoleMouseInput.CursorPosition.y);
-                Console.WriteLine(RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.Positions)));
+                Console.WriteLine(RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.RoadList)));
                 if (PInvokeHelper.OnInput(ConsoleKey.Spacebar))
-                    roads.SetRoad(consoleMouseInput.CursorPosition, RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.Positions)))
+                    roads.IsWritable(true).SetRoad(consoleMouseInput.CursorPosition, RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.RoadList)))
                          .SetColor((ConsoleColor)random.Next(0,10));
 
                 if (PInvokeHelper.OnInput(ConsoleKey.R))

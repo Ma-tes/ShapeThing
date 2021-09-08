@@ -40,38 +40,38 @@ namespace MouseThing
             }
             return (char)Shape.Box;
         }
-        private static List<RECT> UpdateRect(List<POINT> roadPositions)
+        private static List<RECT> UpdateRect(List<Road> roadPositions)
         {
             List<RECT> rectList = new();
             for (int i = 0; i < roadPositions.Count; i++)
             {
                 var updatedList = roadPositions;
-                rectList.Add(ConnectNeighbors(RectToIntList(GetNeighborsList(roadPositions[i], updatedList))));
+                rectList.Add(ConnectNeighbors(RectToIntList(GetNeighborsList(roadPositions[i].Positions, updatedList))));
             }
             return rectList;
         }
-        public static void UpdateRoadChar<T>(ref T roads, List<RoadType> shapes) where T : NormalRoads
+        public static void UpdateRoadChar<T>(ref T roads, List<RoadType> shapes) where T : IRoads 
         {
-            var connectedNeighbors = UpdateRect(roads.Positions);
+            var connectedNeighbors = UpdateRect(roads.RoadList);
             for (int i = 0; i < connectedNeighbors.Count; i++)
             {
                 for (int j = 0; j < shapes.Count; j++)
                 {
                     if (connectedNeighbors[i].Equals(shapes[j].ValidPoints))
                     {
-                        if (roads.Symbols[i] != shapes[j].RoadShapeSymbol)
-                            roads.Symbols[i] = shapes[j].RoadShapeSymbol;
+                        if (roads.RoadList[i].Symbols != shapes[j].RoadShapeSymbol)
+                            roads.RoadList[i].Symbols = shapes[j].RoadShapeSymbol;
                     }
                 }
             }
         }
-        public static List<RECT> GetNeighborsList(POINT cursorPosition, List<POINT> roadPositions)
+        public static List<RECT> GetNeighborsList(POINT cursorPosition, List<Road> roadPositions)
         {
             List<RECT> pointList = new List<RECT>();
             for (int i = 0; i < roadPositions.Count; i++)
             {
-                int x = cursorPosition.x - roadPositions[i].x;
-                int y = cursorPosition.y - roadPositions[i].y;
+                int x = cursorPosition.x - roadPositions[i].Positions.x;
+                int y = cursorPosition.y - roadPositions[i].Positions.y;
                 POINT point = new POINT(x, y);
                 if ((Math.Abs(x) == 1 && y == 0) || Math.Abs(y) == 1 && x == 0)
                 {
