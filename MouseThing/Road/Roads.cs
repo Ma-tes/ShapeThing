@@ -5,44 +5,65 @@ using System.Runtime.InteropServices;
 using System.Configuration;
 using System.Text;
 using System.Threading.Tasks;
+using MouseThing.Interfaces;
 
 namespace MouseThing
 {
-    public abstract class Roads
+    public class Road 
     {
-        public List<char> Symbols = new();
-        public List<POINT> Positions = new();
-        public T SetRoad<T>(POINT position,char Symbol)
+        public char Symbols { get; set; }
+
+        public POINT Positions { get; set; }
+        public Road SetRoadParameter(char symbol, POINT position) => new Road {Symbols = symbol, Positions = position };
+    }
+    public abstract class Roads<T> : Road, IRoads
+    {
+        public List<Road> RoadList { get; set; } = new();
+       
+        public T SetRoad(POINT position,char Symbol)
         {
-            Symbols.Add(Symbol); 
-            Positions.Add(position);
-            return (T)Convert.ChangeType(this, typeof(T));
+            RoadList.Add(SetRoadParameter(Symbol, position));
+            if (this is T t)
+                return t;
+            throw new InvalidCastException();
         }
+
         public void WriteRoads()
         {
-            for (int i = 0; i < Symbols.Count; i++)
+            for (int i = 0; i < RoadList.Count; i++)
             {
                 WriteRoad(i);
             } 
         }
         protected virtual void WriteRoad(int index) 
         {
-            Console.SetCursorPosition(Positions[index].x, Positions[index].y);
-            Console.Write(Symbols[index]);
+            Console.SetCursorPosition(RoadList[index].Positions.x, RoadList[index].Positions.y);
+            Console.Write(RoadList[index].Symbols);
         }
     }
-    public class NormalRoads : Roads 
+    public class NormalRoads : Roads<NormalRoads>, IRoads
     {
-        public int Count => Symbols.Count;
         public List<ConsoleColor> colors = new();
-
         public NormalRoads SetColor(ConsoleColor color) { colors.Add(color); return this; }
-        protected override void WriteRoad(int index)
+        protected  override void WriteRoad(int index)
         {
             Console.ForegroundColor = colors.Count < index ? ConsoleColor.White : colors[index];
             base.WriteRoad(index);
             Console.ResetColor();
         }
-
+    }
+    public class ExtendedRoads : NormalRoads, IRoads 
+    {
+        public List<bool> Writable = new();
+        public ExtendedRoads IsWritable(bool statement) 
+        {
+            Writable.Add(statement);
+            return this;
+        }
+        protected override void WriteRoad(int index)
+        {
+            if(Writable[index] != false)
+                base.WriteRoad(index);
+        }
     }
 }
