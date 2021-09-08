@@ -5,24 +5,16 @@ using System.Runtime.InteropServices;
 using System.Configuration;
 using System.Text;
 using System.Threading.Tasks;
+using MouseThing.Interfaces;
 
 namespace MouseThing
 {
-    public interface IRoad 
-    {
-         public char Symbols { get; } 
-         public POINT Positions { get; } 
-    }
-    public class Road : IRoad
+    public class Road 
     {
         public char Symbols { get; set; }
 
         public POINT Positions { get; set; }
         public Road SetRoadParameter(char symbol, POINT position) => new Road {Symbols = symbol, Positions = position };
-    }
-    public interface IRoads 
-    {
-        public List<Road> RoadList { get; set; } 
     }
     public abstract class Roads<T> : Road, IRoads
     {

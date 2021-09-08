@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
-using System.Text;
 
 namespace MouseThing
 {
@@ -37,7 +34,8 @@ namespace MouseThing
                 Console.SetCursorPosition(consoleMouseInput.CursorPosition.x, consoleMouseInput.CursorPosition.y);
                 Console.WriteLine(RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.RoadList)));
                 if (PInvokeHelper.OnInput(ConsoleKey.Spacebar))
-                    roads.IsWritable(true).SetRoad(consoleMouseInput.CursorPosition, RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.RoadList)))
+                    roads.IsWritable(true)
+                         .SetRoad(consoleMouseInput.CursorPosition, RoadHelper.GetRoadShape(RoadType.DefaultRoadTypes, RoadHelper.GetNeighborsList(consoleMouseInput.CursorPosition, roads.RoadList)))
                          .SetColor((ConsoleColor)random.Next(0,10));
 
                 if (PInvokeHelper.OnInput(ConsoleKey.R))
